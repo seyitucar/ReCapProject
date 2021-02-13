@@ -12,15 +12,27 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
+
+
+
+
             CarManager carManager = new CarManager(new EfCarDal());
             BrandManager brandManager = new BrandManager(new EfBrandDal());
             ColorManager colorManager = new ColorManager(new EfColorDal());
+
+
+            foreach (var car in carManager.GetCarDetails())
+            {
+                Console.WriteLine(car.CarName+ " / " + car.ColorName + " / " + car.BrandName + " / " + car.DailyPrice);
+            }
+
 
             Console.WriteLine("-------------Marka Id bazında araba listesi----------------");
 
             foreach (var car in carManager.GetCarsByBrandId(6))
             {
                 Console.WriteLine(car.Description);
+
             }
 
             Console.WriteLine("-------------Renk Id bazında araba listesi----------------");
@@ -31,19 +43,20 @@ namespace ConsoleUI
 
             Console.WriteLine("-------------Marka ekleme kodu / başarılı----------------");
 
-            brandManager.Add(new Brand { BrandName="Dacia"});
+            brandManager.Add(new Brand { BrandName = "Dacia" });
 
             Console.WriteLine("-------------Marka ekleme kodu / başarısız----------------");
 
-            brandManager.Add(new Brand {  BrandName= "S"});
+            brandManager.Add(new Brand { BrandName = "S" });
 
             Console.WriteLine("-------------Araba ekleme kodu / başarılı----------------");
 
-            carManager.Add(new Car {ColorId=3,ModelYear=1985,Description="Cassical car",BrandId=6,DailyPrice = 485 });
+            carManager.Add(new Car { ColorId = 3, ModelYear = 1985, Description = "Cassical car", BrandId = 6, DailyPrice = 485 });
 
             Console.WriteLine("-------------Araba ekleme kodu / başarısız----------------");
 
             carManager.Add(new Car { DailyPrice = 0 });
+
         }
     }
 }
