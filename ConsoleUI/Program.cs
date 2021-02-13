@@ -5,6 +5,7 @@ using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ConsoleUI
 {
@@ -13,50 +14,22 @@ namespace ConsoleUI
         static void Main(string[] args)
         {
 
-
-
-
             CarManager carManager = new CarManager(new EfCarDal());
-            BrandManager brandManager = new BrandManager(new EfBrandDal());
-            ColorManager colorManager = new ColorManager(new EfColorDal());
 
+            var result = carManager.GetCarDetails();
 
-            foreach (var car in carManager.GetCarDetails())
+            if (result.Success)
             {
-                Console.WriteLine(car.CarName+ " / " + car.ColorName + " / " + car.BrandName + " / " + car.DailyPrice);
+                foreach (var car in carManager.GetCarDetails().Data)
+                {
+                    Console.WriteLine(car.CarName + " / " + car.BrandName + " / " + car.ColorName + " / " + car.DailyPrice);
+                }
             }
-
-
-            Console.WriteLine("-------------Marka Id bazında araba listesi----------------");
-
-            foreach (var car in carManager.GetCarsByBrandId(6))
+            else
             {
-                Console.WriteLine(car.Description);
-
+                Console.WriteLine(result.Message);
             }
-
-            Console.WriteLine("-------------Renk Id bazında araba listesi----------------");
-            foreach (var car in carManager.GetCarsByColorId(2))
-            {
-                Console.WriteLine(car.Description);
-            }
-
-            Console.WriteLine("-------------Marka ekleme kodu / başarılı----------------");
-
-            brandManager.Add(new Brand { BrandName = "Dacia" });
-
-            Console.WriteLine("-------------Marka ekleme kodu / başarısız----------------");
-
-            brandManager.Add(new Brand { BrandName = "S" });
-
-            Console.WriteLine("-------------Araba ekleme kodu / başarılı----------------");
-
-            carManager.Add(new Car { ColorId = 3, ModelYear = 1985, Description = "Cassical car", BrandId = 6, DailyPrice = 485 });
-
-            Console.WriteLine("-------------Araba ekleme kodu / başarısız----------------");
-
-            carManager.Add(new Car { DailyPrice = 0 });
-
         }
     }
 }
+
