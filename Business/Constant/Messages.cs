@@ -24,6 +24,17 @@ namespace Business.Constant
         public static string ColorAdded = "Renk başarı ile eklendi";
         public static string ColorDeleted = "Renk başarı ile silindi";
         public static string ColorUpdated = "Renk başarı ile güncellendi";
-
+        public static string CustomerAdded = "Müşteri başarı ile eklendi";
+        public static string CustomerDeleted = "Müşteri başarı ile silindi";
+        public static string CustomerUpdated = "Müşteri başarı ile güncellendi";
+        public static string UserAdded = "Kullanıcı başarı ile eklendi";
+        public static string UserDeleted = "Kullanıcı başarı ile silindi";
+        public static string UserUpdated = "Kullanıcı başarı ile güncellendi";
+        public static string RentalAdded = "Kiralama bilgisi başarı ile eklendi";
+        public static string RentalError = "Araç şu anda kiralanamaz";
+        public static string RentalDeleted = "Kiralama bilgisi başarı ile silindi";
+        public static string RentalUpdated = "Kiralama bilgisi başarı ile güncellendi";
+        public static string ErrorRentalUpdate = "Araç şu anda kirada değil, sonlandırma başarısız";
+        public static string SuccessRentalUpdate = "Kiralama başarı ile sonlandırıldı";
     }
 }
