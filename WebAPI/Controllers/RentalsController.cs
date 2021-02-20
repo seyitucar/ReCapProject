@@ -55,7 +55,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("add")]
+        [HttpPost("add")]
 
         public IActionResult Add(Rental rental)
         {
