@@ -2,6 +2,7 @@
 using Business.Constant;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
+using Core.Aspects.Transaction;
 using Core.CrossCuttingConcerns.Valdation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -80,6 +81,22 @@ namespace Business.Concrete
 
             _rentalDal.Update(updatedRental);
             return new SuccessResult(Messages.SuccessRentalUpdate);
+        }
+
+        [TransactionScopeAspect]
+        public IResult AddTrasactionalTest(Rental rental)
+        {
+
+            Add(rental);
+
+            if (rental.ReturnDate < DateTime.Now)
+            {
+                throw new Exception("İşlem başarısız");
+            }
+
+            Add(rental);
+
+            return null;
         }
     }
 }
