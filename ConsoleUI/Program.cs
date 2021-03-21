@@ -94,7 +94,7 @@ namespace ConsoleUI
                 Console.WriteLine(result13.Message);
                 foreach (var rental in rentalManager.GetRentalDetails().Data)
                 {
-                    Console.WriteLine(rental.RentDate + " " + rental.CarId);
+                    Console.WriteLine(rental.RentDate + " " + rental.CarName);
                 }
             }
             else

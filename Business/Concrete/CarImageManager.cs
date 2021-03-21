@@ -26,6 +26,7 @@ namespace Business.Concrete
         {
             _carImageDal = carImageDal;
         }
+
         //[ValidationAspect(typeof(CarImageValidator))]
         public IResult Add(IFormFile file, CarImage carImage)
         {
@@ -39,6 +40,7 @@ namespace Business.Concrete
             _carImageDal.Add(carImage);
             return new SuccessResult();
         }
+
         [ValidationAspect(typeof(CarImageValidator))]
         public IResult Delete(CarImage carImage)
         {
@@ -46,6 +48,7 @@ namespace Business.Concrete
             _carImageDal.Delete(carImage);
             return new SuccessResult();
         }
+
         [ValidationAspect(typeof(CarImageValidator))]
         public IResult Update(IFormFile file, CarImage carImage)
         {
@@ -54,24 +57,27 @@ namespace Business.Concrete
             _carImageDal.Update(carImage);
             return new SuccessResult();
         }
+
         [ValidationAspect(typeof(CarImageValidator))]
         public IDataResult<CarImage> GetById(int id)
         {
             return new SuccessDataResult<CarImage>(_carImageDal.Get(p => p.Id == id));
         }
+
         public IDataResult<List<CarImage>> GetAll()
         {
             return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll());
         }
+
         [ValidationAspect(typeof(CarImageValidator))]
         public IDataResult<List<CarImage>> GetImagesByCarId(int id)
         {
             return new SuccessDataResult<List<CarImage>>(CheckIfCarImageNull(id));
         }
 
-        private IResult CheckImageLimitExceeded(int carid)
+        private IResult CheckImageLimitExceeded(int carId)
         {
-            var carImageCount = _carImageDal.GetAll(p => p.CarId == carid).Count;
+            var carImageCount = _carImageDal.GetAll(p => p.CarId == carId).Count;
             if (carImageCount >= 5)
             {
                 return new ErrorResult(Messages.CountOfImageLimitError);
@@ -90,8 +96,6 @@ namespace Business.Concrete
             }
             return _carImageDal.GetAll(p => p.CarId == id);
         }
-
     }
-
 }
 
