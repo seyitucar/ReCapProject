@@ -36,16 +36,16 @@ namespace Business.Concrete
 
         }
 
-        public IResult Delete(Car car)  
+        public IResult Delete(Car car)
         {
             _carDal.Delete(car);
             return new SuccessResult(Messages.CarDeleted);
+
         }
         [CacheAspect]
         [PerformanceAspect(1)]
         public IDataResult<List<Car>> GetAll()
         {
-            
             return new SuccessDataResult<List<Car>>(_carDal.GetAll());
         }
 
@@ -54,27 +54,31 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails());
         }
 
-        public IDataResult<List<CarDetailDto>> GetCarDetailsById(int Id)
+        public IDataResult<List<CarDetailDto>> GetCarDetailsById(int carId)
         {
-            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(p => p.Id == Id));
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(p => p.Id == carId));
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarsByBrandId(int brandId)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(ca => ca.BrandId == brandId));
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarsByColorId(int colorId)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(ca => ca.ColorId == colorId));
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarsByColorIdAndBrandId(int colorId, int brandId)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(o => o.ColorId == colorId && o.BrandId == brandId));
         }
 
         [ValidationAspect(typeof(CarValidator))]
         [CacheRemoveAspect("ICarService.Get")]
         public IResult Update(Car car)
         {
-            _carDal.Update(car);
-             return new SuccessResult(Messages.CarUpdated);
-        }
-
-        IDataResult<List<CarDetailDto>> ICarService.GetCarsByBrandId(int Id)
-        {
-            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(ca => ca.BrandId == Id));
-        }
-
-        IDataResult<List<CarDetailDto>> ICarService.GetCarsByColorId(int Id)
-        {
-            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(ca => ca.ColorId == Id));
+            return new SuccessResult(Messages.CarUpdated);
         }
     }
 }

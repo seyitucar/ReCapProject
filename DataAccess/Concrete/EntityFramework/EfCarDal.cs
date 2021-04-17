@@ -22,13 +22,23 @@ namespace DataAccess.Concrete.EntityFramework
                              on ca.BrandId equals br.Id
                              join co in context.Colors
                              on ca.ColorId equals co.Id
-                             join ci in context.CarImages
-                             on ca.Id equals ci.CarId
-                             select new CarDetailDto { BrandId = ca.BrandId, ColorId = ca.ColorId, ImagePath = ci.ImagePath, Id = ca.Id, CarName = ca.CarName, BrandName = br.BrandName, ColorName = co.ColorName, DailyPrice = ca.DailyPrice, Description = ca.Description, ModelYear = ca.ModelYear };
+                             select new CarDetailDto()
+                             {
+                                 ImagePath = (from x in context.CarImages where x.CarId == ca.Id select x.ImagePath).FirstOrDefault(),
+                                 BrandId = ca.BrandId,
+                                 ColorId = ca.ColorId,
+                                 Id = ca.Id,
+                                 CarName = ca.CarName,
+                                 BrandName = br.BrandName,
+                                 ColorName = co.ColorName,
+                                 DailyPrice = ca.DailyPrice,
+                                 Description = ca.Description,
+                                 ModelYear = ca.ModelYear
+                             };
 
-                return result.ToList();
-
+                return filter == null ? result.ToList() : result.Where(filter).ToList();
             }
+
         }
     }
 }
