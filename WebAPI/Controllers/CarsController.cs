@@ -72,8 +72,6 @@ namespace WebAPI.Controllers
         [HttpGet("getcardetails")]
         public IActionResult GetCarDetails()
         {
-            Thread.Sleep(1000);
-
             var result = _carService.GetCarDetails();
 
             if (result.Success)
@@ -118,10 +116,10 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getbybrandidandcolorid")]
-        public IActionResult GetCarsByBrandIdandColorId(int colorId, int brandId)
+        [HttpGet("getcarsbybrandidandcolorid")]
+        public IActionResult GetCarsByBrandIdAndColorId(int brandId, int colorId)
         {
-            var result = _carService.GetCarsByColorIdAndBrandId(colorId, brandId);
+            var result = _carService.GetCarsByBrandIdAndColorId(brandId,colorId);
 
             if (result.Success)
             {

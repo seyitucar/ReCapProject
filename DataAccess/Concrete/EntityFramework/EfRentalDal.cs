@@ -25,7 +25,20 @@ namespace DataAccess.Concrete.EntityFramework
                              join us in context.Users
                              on cu.UserId equals us.Id
 
-                             select new RentalDetailDto {Id=re.Id,CarName=ca.CarName,RentDate=re.RentDate,ReturnDate=re.ReturnDate,CompanyName=cu.CompanyName,BrandName=br.BrandName,FirstName=us.FirstName,LastName=us.LastName};
+                             select new RentalDetailDto {
+                                 ModelYear=ca.ModelYear,
+                                 CarId=ca.Id,Id=re.Id,
+                                 CarName=ca.CarName,
+                                 RentDate=re.RentDate,
+                                 ReturnDate=re.ReturnDate,
+                                 CompanyName=cu.CompanyName,
+                                 BrandName=br.BrandName,
+                                 FirstName=us.FirstName,
+                                 LastName=us.LastName,
+                                 DailyPrice = ca.DailyPrice,
+                                 Description = ca.Description
+
+                             };
 
                 return result.ToList();
             }
