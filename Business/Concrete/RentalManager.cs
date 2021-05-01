@@ -98,5 +98,17 @@ namespace Business.Concrete
 
             return null;
         }
+
+        public IResult isCarAvailable(Rental rental)
+        {
+            var result = _rentalDal.GetAll(r => r.CarId == rental.CarId);
+
+            if (result.Any(r => r.RentDate != null && r.ReturnDate == null)){
+                return new ErrorResult(Messages.CarIsNotAvailable);
+            } else
+            {
+                return new SuccessResult();
+            }
+        }
     }
 }

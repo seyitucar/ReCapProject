@@ -36,8 +36,8 @@ namespace DataAccess.Concrete.EntityFramework
                                  FirstName=us.FirstName,
                                  LastName=us.LastName,
                                  DailyPrice = ca.DailyPrice,
-                                 Description = ca.Description
-
+                                 Description = ca.Description,
+                                 CustomerId = cu.Id
                              };
 
                 return result.ToList();

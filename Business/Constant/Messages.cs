@@ -58,5 +58,14 @@ namespace Business.Constant
         public static string AccessTokenCreated = "Kayıt Oluşturuldu";
         public static string SuccessfulLogin = "Başarıyla giriş yapıldı";
         public static string UserAlreadyExists = "Kullanıcı zaten mevcut";
+
+        public static string creditCardAdded = "Kredi kartı başarı ile eklendi";
+
+        public static string creditCardDeleted = "Kredi kartı başarı ile silindi";
+        public static string findeksScoreAdded = "Findeks skorunuz başarı ile eklendi";
+        public static string findeksScoreDelete = "Findeks skorunuz başarı ile silindi";
+        public static string findeksScoreUpdate = "Findeks skorunuz başarı ile güncellendi";
+
+        public static string CarIsNotAvailable { get; internal set; }
     }
 }
