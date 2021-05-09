@@ -6,12 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace DataAccess.Concrete.EntityFramework
 {
     public class EfRentalDal : EfEntityRepositoryBase<Rental, RentACarContext>, IRentalDal
     {
-        public List<RentalDetailDto> GetRentalDetails()
+        public List<RentalDetailDto> GetRentalDetails(Expression<Func<RentalDetailDto, bool>> filter = null)
         {
             using (RentACarContext context = new RentACarContext())
             {
@@ -25,23 +26,27 @@ namespace DataAccess.Concrete.EntityFramework
                              join us in context.Users
                              on cu.UserId equals us.Id
 
-                             select new RentalDetailDto {
-                                 ModelYear=ca.ModelYear,
-                                 CarId=ca.Id,Id=re.Id,
-                                 CarName=ca.CarName,
-                                 RentDate=re.RentDate,
-                                 ReturnDate=re.ReturnDate,
-                                 CompanyName=cu.CompanyName,
-                                 BrandName=br.BrandName,
-                                 FirstName=us.FirstName,
-                                 LastName=us.LastName,
+                             select new RentalDetailDto
+                             {
+                                 ModelYear = ca.ModelYear,
+                                 CarId = ca.Id,
+                                 Id = re.Id,
+                                 CarName = ca.CarName,
+                                 RentDate = re.RentDate,
+                                 ReturnDate = re.ReturnDate,
+                                 CompanyName = cu.CompanyName,
+                                 BrandName = br.BrandName,
+                                 FirstName = us.FirstName,
+                                 LastName = us.LastName,
                                  DailyPrice = ca.DailyPrice,
                                  Description = ca.Description,
                                  CustomerId = cu.Id
                              };
 
-                return result.ToList();
+                return filter == null ? result.ToList() : result.Where(filter).ToList();
             }
-        } 
+        }
     }
+
 }
+

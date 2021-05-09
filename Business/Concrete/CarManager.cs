@@ -40,8 +40,8 @@ namespace Business.Concrete
         {
             _carDal.Delete(car);
             return new SuccessResult(Messages.CarDeleted);
-
         }
+
         [CacheAspect]
         [PerformanceAspect(1)]
         public IDataResult<List<Car>> GetAll()

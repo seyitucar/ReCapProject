@@ -31,7 +31,9 @@ namespace Business.Concrete
 
             foreach (var result in results)
             {
-                if (result.ReturnDate == null || result.RentDate > result.ReturnDate)
+                if (result.ReturnDate == null ||
+                    (rental.RentDate >= result.RentDate && rental.RentDate<=result.ReturnDate) || 
+                    (rental.ReturnDate >= result.RentDate && rental.RentDate <= result.ReturnDate))
                 {
                     return new ErrorResult(Messages.RentalError);
                 }
@@ -69,18 +71,18 @@ namespace Business.Concrete
             return new SuccessResult(Messages.RentalUpdated);
         }
 
-        public IResult EndRental(int carId)
+        public IResult EndRental(Rental rental)
         {
-            var result = _rentalDal.GetAll(re => re.CarId == carId);
+            var result = _rentalDal.GetAll();
             var updatedRental = result.LastOrDefault();
-            if (updatedRental.ReturnDate != null)
+            if (updatedRental.ReturnDate != null && updatedRental.RentDate < DateTime.Now && updatedRental.ReturnDate > DateTime.Now)
             {
-                return new ErrorResult(Messages.ErrorRentalUpdate);
+                updatedRental.ReturnDate = DateTime.Now;
+                _rentalDal.Update(updatedRental);
+                return new SuccessResult(Messages.SuccessRentalUpdate);
             }
-            updatedRental.ReturnDate = DateTime.Now;
 
-            _rentalDal.Update(updatedRental);
-            return new SuccessResult(Messages.SuccessRentalUpdate);
+            return new ErrorResult(Messages.ErrorRentalUpdate);
         }
 
         [TransactionScopeAspect]
@@ -110,5 +112,17 @@ namespace Business.Concrete
                 return new SuccessResult();
             }
         }
+
+        public IDataResult<List<RentalDetailDto>> GetRentalsByCarId(int carId)
+        {
+            return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetails(r => r.CarId == carId));
+        }
+
+
+        public IDataResult<List<RentalDetailDto>> GetRentalByCustomerId(int customerId)
+        {
+            return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetails(r => r.CustomerId == customerId));
+        }
+
     }
 }
